@@ -8,17 +8,16 @@ import numpy as np
 
 
 app = Flask(__name__)
+
 #uplaod folder and allowed file types
 UPLOAD_BASE_DIR = 'uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-
 
 model = tf.keras.applications.MobileNetV2(weights='imagenet')
 
 def predict_shose_label(image_storage_object):
     """
-    uplod picutre from page -> Predict the type of shoe in the given image -> return the predicted shoe type as a string
-
+    upload picture from page -> Predict the type of shoe in the given image -> return the predicted shoe type as a string
     """
    #upload and resize the image for AI model 
     img = Image.open(image_storage_object)
@@ -47,7 +46,7 @@ def index_page():
 @app.route('/upload',methods=['POST'])
 def handle_upload():
     if 'shoe_properties' not in request.files:
-        return "no file part in the request ", 400
+        return " no file part in the request ", 400
     
     file = request.files ['shoe_properties']
     
@@ -64,7 +63,7 @@ def handle_upload():
         file.seek(0)  # Reset file pointer to the beginning after saving
         file.save(save_path)
 
-    return f"<h3>Detect successfully! Detected label: {detected_label}</h3><p>File saved to: {save_path}</p>", 200
+    return render_template('success.html', detected_label=detected_label, saved_path=save_path)
 
 #open port for flask app
 if __name__ == '__main__':

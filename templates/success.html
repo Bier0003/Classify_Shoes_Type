@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-          <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Shoe Classifier</title>
-    
-       
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Success</title>
     <style>
         body {
             margin: 0;
@@ -53,11 +51,9 @@
 </head>
 <body>
     <main class="card">
-        <h1>Upload Image</h1>
-        <form action="/upload" method="post" enctype="multipart/form-data">
-            <input type="file" name ="shoe_properties" required>
-            <button type="submit">Upload</button>
-        </form>
+        <h1>Upload Successful</h1>
+        <p>Detected label: <strong>{{ detected_label }}</strong></p>
+        <p>Saved path: <strong>{{ saved_path }}</strong></p>
 
         <div class="button-row">
             <a href="/">
@@ -66,5 +62,4 @@
         </div>
     </main>
 </body>
-                         
 </html>
