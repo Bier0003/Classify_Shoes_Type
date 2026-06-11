@@ -4,7 +4,7 @@ import numpy as np
 import tensorflow as tf
 
 # open file
-img = Image.open('uploads/test_pic.png')
+img = Image.open('uploads/test_2.png')
 
 # resize image to 224x224
 img_resized = img.resize((224, 224))
