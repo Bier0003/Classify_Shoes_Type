@@ -1,70 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-          <meta charset="UTF-8">
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Shoe Classifier</title>
-    
-       
-    <style>
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: grid;
-            place-items: center;
-            font-family: Arial, sans-serif;
-            background: #8d92d4;
-            color: #1f2937;
-        }
+        <style>
+            :root {
+                --bg: #d8d4cf;
+                --card: rgba(255, 255, 255, 0.88);
+                --text: #1f2937;
+                --muted: #6b7280;
+                --accent: #0f766e;
+                --accent-dark: #115e59;
+                --border: #e5e7eb;
+            }
 
-        .card {
-            width: min(520px, calc(100% - 32px));
-            background: white;
-            border-radius: 16px;
-            padding: 28px;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
-            text-align: center;
-        }
+            * {
+                box-sizing: border-box;
+            }
 
-        h1 {
-            margin-top: 0;
-        }
+            body {
+                margin: 0;
+                min-height: 100vh;
+                display: grid;
+                place-items: center;
+                font-family: Arial, sans-serif;
+                color: var(--text);
+                background:
+                   linear-gradient(135deg, rgba(8, 47, 73, 0.68), rgba(15, 118, 110, 0.42)),
+                    url("{{ url_for('uploaded_file', filename='1.png') }}") center/cover no-repeat fixed;
+                background-blend-mode: multiply;
+                padding: 24px;
+            }
 
-        p {
-            line-height: 1.6;
-            color: #4b5563;
-        }
+            .card {
+                width: min(560px, 100%);
+                background: var(--card);
+                backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.7);
+                border-radius: 24px;
+                padding: 32px;
+                box-shadow: 0 20px 50px rgba(31, 41, 55, 0.12);
+            }
 
-        .button-row {
-            margin-top: 20px;
-        }
+            .eyebrow {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 8px 12px;
+                border-radius: 999px;
+                background: rgba(15, 118, 110, 0.1);
+                color: var(--accent-dark);
+                font-size: 0.875rem;
+                font-weight: 700;
+                letter-spacing: 0.02em;
+            }
 
-        a button {
-            border: none;
-            border-radius: 10px;
-            padding: 12px 18px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            background: #0f766e;
-            color: white;
-        }
-    </style>
-</head>
-<body>
-    <main class="card">
-        <h1>Upload Image</h1>
-        <form action="/upload" method="post" enctype="multipart/form-data">
-            <input type="file" name ="shoe_properties" required>
-            <button type="submit">Upload</button>
-        </form>
+            h1 {
+                margin: 18px 0 10px;
+                font-size: clamp(2rem, 4vw, 2.6rem);
+                line-height: 1.05;
+            }
 
-        <div class="button-row">
-            <a href="/">
-                <button type="button">Back</button>
-            </a>
-        </div>
-    </main>
-</body>
+            p {
+                margin: 0;
+                color: var(--muted);
+                line-height: 1.6;
+            }
+
+            .upload-box {
+                margin-top: 24px;
+                padding: 18px;
+                border: 1px dashed var(--border);
+                border-radius: 18px;
+                background: rgba(255, 255, 255, 0.74);
+            }
+
+            .file-input {
+                width: 100%;
+                padding: 12px;
+                border-radius: 12px;
+                border: 1px solid var(--border);
+                background: #fff;
+                color: var(--muted);
+            }
+
+            .button-row {
+                margin-top: 18px;
+                display: flex;
+                gap: 12px;
+                flex-wrap: wrap;
+            }
+
+            .button,
+            .button-link {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 46px;
+                padding: 0 18px;
+                border-radius: 12px;
+                border: none;
+                font-size: 1rem;
+                font-weight: 700;
+                cursor: pointer;
+                text-decoration: none;
+                transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+            }
+
+            .button {
+                background: var(--accent);
+                color: white;
+                box-shadow: 0 12px 24px rgba(15, 118, 110, 0.22);
+            }
+
+            .button-link {
+                background: white;
+                color: var(--text);
+                border: 1px solid var(--border);
+            }
+
+            .button:hover,
+            .button-link:hover {
+                transform: translateY(-1px);
+            }
+
+            .button:hover {
+                background: var(--accent-dark);
+            }
+
+            .hint {
+                margin-top: 12px;
+                font-size: 0.92rem;
+                color: var(--muted);
+            }
+
+            @media (max-width: 640px) {
+                .card {
+                    padding: 24px;
+                }
+
+                .button,
+                .button-link {
+                    width: 100%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <main class="card">
+            <span class="eyebrow">Shoe image classifier</span>
+            <p>Select a shoe photo and the app will classify it, then save the file into a label folder under uploads.</p>
+
+            <form class="upload-box" action="/upload" method="post" enctype="multipart/form-data">
+                <input class="file-input" type="file" name="shoe_properties" required>
+
+                <div class="button-row">
+                    <button class="button" type="submit">Upload</button>
+                    <a class="button-link" href="/">Back</a>
+                </div>
+
+                <div class="hint">PNG, JPG, JPEG, and GIF files are supported.</div>
+            </form>
+        </main>
+    </body>
                          
-</html>
+</html>    

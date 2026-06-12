@@ -5,60 +5,135 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Success</title>
     <style>
+        :root {
+            --bg: #d8d4cf;
+            --card: rgba(255, 255, 255, 0.9);
+            --text: #1f2937;
+            --muted: #6b7280;
+            --accent: #0f766e;
+            --accent-dark: #115e59;
+            --border: #e5e7eb;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             min-height: 100vh;
             display: grid;
             place-items: center;
             font-family: Arial, sans-serif;
-            background: #8d92d4;
-            color: #1f2937;
+            background:
+                linear-gradient(135deg, rgba(8, 47, 73, 0.68), rgba(15, 118, 110, 0.42)),
+                    url("{{ url_for('uploaded_file', filename='1.png') }}") center/cover no-repeat fixed;
+                background-blend-mode: multiply;
+            color: var(--text);
+            padding: 24px;
         }
 
         .card {
-            width: min(520px, calc(100% - 32px));
-            background: white;
-            border-radius: 16px;
-            padding: 28px;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
-            text-align: center;
+            width: min(560px, 100%);
+            background: var(--card);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 20px 50px rgba(31, 41, 55, 0.12);
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(15, 118, 110, 0.1);
+            color: var(--accent-dark);
+            font-size: 0.875rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
         }
 
         h1 {
-            margin-top: 0;
+            margin: 18px 0 10px;
+            font-size: clamp(2rem, 4vw, 2.4rem);
+            line-height: 1.05;
         }
 
         p {
+            margin: 0;
             line-height: 1.6;
-            color: #4b5563;
+            color: var(--muted);
         }
 
         .button-row {
-            margin-top: 20px;
+            margin-top: 24px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
-        a button {
+        .button,
+        .button-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 0 18px;
+            border-radius: 12px;
             border: none;
-            border-radius: 10px;
-            padding: 12px 18px;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            background: #0f766e;
+            text-decoration: none;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+        }
+
+        .button {
+            background: var(--accent);
             color: white;
+            box-shadow: 0 12px 24px rgba(15, 118, 110, 0.22);
+        }
+
+        .button-link {
+            background: white;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .button:hover,
+        .button-link:hover {
+            transform: translateY(-1px);
+        }
+
+        .button:hover {
+            background: var(--accent-dark);
+        }
+
+        @media (max-width: 640px) {
+            .card {
+                padding: 24px;
+            }
+
+            .button,
+            .button-link {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
     <main class="card">
+        <span class="eyebrow">Upload complete</span>
         <h1>Upload Successful</h1>
         <p>Detected label: <strong>{{ detected_label }}</strong></p>
         <p>Saved path: <strong>{{ saved_path }}</strong></p>
 
         <div class="button-row">
-            <a href="/">
-                <button type="button">Back</button>
-            </a>
+         
+            <a class="button-link" href="/">Back</a>
         </div>
     </main>
 </body>
