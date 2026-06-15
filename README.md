@@ -1,4 +1,4 @@
-# Projekt2
+# Classify_Shoes_Type
 
 An image upload web app built with Flask and TensorFlow. Users can upload a shoe image, the app runs a MobileNetV2 prediction, and the uploaded file is saved into a label-named folder under `uploads/`.
 
